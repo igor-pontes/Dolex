@@ -3,6 +3,7 @@ gunicorn
 psycopg2-binary==2.8.5
 daphne
 channels_redis
+django-steamauth
 dota2
 steam
 configparser

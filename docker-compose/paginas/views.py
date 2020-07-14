@@ -132,7 +132,7 @@ def index(request):
 		return render(request, 'dolex/home.html', title) #title will be just 'sitetile'
 
 def login(request):
-	return steamauth.auth('/process', False)
+	return steamauth.RedirectToSteamSignIn('/process', False)
 
 def logout(request):
 	request.session.clear()
@@ -311,7 +311,7 @@ def pag_liga(request, liga=None):
 	else:
 		return redirect('/ligas')
 def process_login(request):
-	steam_id = steamauth.get_uid(request.GET)
+	steam_id = steamauth.GetSteamID64(request.GET)
 	steam_key = '501A831836E1F00409A77278F9C926B7'
 
 	if steam_id is not False:

@@ -6,9 +6,7 @@ COPY requirements.txt /code/
 RUN apt install default-libmysqlclient-dev 
 RUN pip install -r requirements.txt
 COPY . /code/
-WORKDIR /code/steamauth
-RUN python setup.py install
-WORKDIR /code
+
 
 
 
