@@ -1,0 +1,9 @@
+Django==2.2.13
+gunicorn
+psycopg2-binary==2.8.5
+daphne
+channels_redis
+dota2
+steam
+configparser
+mysqlclient

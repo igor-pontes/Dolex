@@ -1,0 +1,92 @@
+{% extends "dolex/base.html" %}
+  {% load filterusertag %}
+  {% block content %}
+  <div class="container ">
+  	<div class="jumbotron bg-light">
+  	
+    <br>
+  {% if lol != 0 %}
+    {% for liga in ligas %}
+      
+      {% isregistered request.session.steamid liga as isreg %}
+      {% liga_slots liga as c_slots %}
+       
+      
+    <div class="card ">
+     
+    <div class="card-header">
+    <h4 style="float:left; margin-top: 8px;">{{ liga.nome }} 
+      {% if liga.price == 0.0 %}
+        <span class="badge badge-success">Entrada Gratuita</span>
+      {% else %}
+        <span class="badge badge-success">R$ {{ liga.price }}</span>
+      {% endif %} / Slots:
+      {% if liga.slots is 0 %}
+        <span class="badge badge-success">Ilimitados</span>
+      {% elif c_slots == liga.slots %}
+        <span class="badge badge-warning">Slots Preenchidos.</span>
+      {% else %}
+        <span class="badge badge-info">{{ c_slots }}/{{ liga.slots }}</span>
+      {% endif %}</h4>
+       <span  style="float:right; font-size:15px;"> Criada em: {{ liga.date|date:"j N Y" }}</span><br>
+      <span  style="float:right; font-size:15px;"> Termina em: 
+      
+      {% if liga.endate == liga.date %}
+        Indefinida
+      {% else %}
+       {{ liga.endate|date:"j N Y" }}
+      {% endif %}
+       
+
+
+      </span>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">
+          {% if liga.active is True %}
+            <span class="text-primary">Liga em andamento</span>
+          {% else %}
+            <span class="text-secondary">Liga finalizada</span>
+          {% endif %}
+        </h5>
+        <p class="card-text">{{ liga.desc }}</p>
+        {% if liga.active is True %}
+          {% if isreg is True %}
+            <a href="/liga/{{ liga.slug }}" class="btn btn-success">Visualizar</a>
+            <a href="/liga/{{ liga.slug }}/sair" class="btn btn-danger">Sair da liga</a>
+          {% else %}
+            <a href="/liga/{{ liga.slug }}" class="btn btn-primary">Detalhes</a>
+          {% endif %}
+        {% else %}
+          <a href="#" class="btn btn-primary disabled">Detalhes</a>
+        {% endif %}
+        <a href="/liga/{{ liga.slug }}/ranking" class="btn btn-secondary">Ranking</a>
+      </div>
+    </div>
+    <br>
+
+    {% endfor %}
+    <center>
+    
+    {% with ''|center:cc as range %}
+      {% if cc != 1 %}
+        {% for i in range %}
+          {% if forloop.counter == page %}
+            <a href="/ligas/{{ forloop.counter }}" class="btn btn-danger">{{ forloop.counter }}</a>
+          {% else %}
+            <a href="/ligas/{{ forloop.counter }}" class="btn btn-outline-danger">{{ forloop.counter }}</a>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+      
+      {% endif %}
+    {% endwith %}
+    </center>
+    {% else %}
+    <center>Não há ligas nessa página.</center>
+    {% endif %}
+  
+</div>
+  
+  {% endblock content %}
+

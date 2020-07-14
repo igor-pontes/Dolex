@@ -1,0 +1,25 @@
+
+#chat_log{
+
+	height: 400px;
+	max-height: 400px;
+	resize: none;
+	width: 100%;
+	border: 1px solid #ced4da;
+	border-radius: .25rem;
+	padding: 5px;
+	padding-bottom: 0px;
+	outline: none;
+
+}
+#chat_log:disabled{
+	
+    background-color: url("img_tree.gif");
+    
+	color: #495057;
+	background: #e9ecef;
+}
+#divleft{
+	width: 25%;
+	float: left;
+}

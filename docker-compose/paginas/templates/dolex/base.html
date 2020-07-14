@@ -1,0 +1,101 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="icon" type="image/png" href="{% static 'images/icondolex.png' %}" sizes="20x20">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'dolex/chat-log.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'dolex/style.css' %}">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    {% if sitetitle %}
+    <title>Dolex - {{ sitetitle }}</title>
+    {% else %}
+    <title>Dolex</title>
+    {% endif %}
+  </head>
+  <body class="bg-dark">
+  	<header>
+	<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-danger">
+	<div class="container">
+	  <a class="navbar-brand text-dark" href="/"><img src="{% static 'images/logo.png' %}" height="40"><!--Dolex--></a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+	  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+	    <ul class="navbar-nav">
+	    	{% if sitetitle == 'Home'%}
+	        	<li class="nav-item active">
+	      	{% else %}
+	      		<li class="nav-item">
+	      	{% endif %}
+	        <a class="nav-link" href="/">Home</a>
+	      </li>
+	    {% if sitetitle == 'Ligas'%}
+	      <li class="nav-item active">
+	    {% else %}
+	      <li class="nav-item">
+	    {% endif %}
+	      	{% if 'logged' in request.session %}
+	      	<a class="nav-link" href="/ligas">Ligas</a>
+	      	{% else %}
+	        <a class="nav-link disabled" href="#">Ligas</a>
+	        {% endif %}
+	      </li>
+	      {% if sitetitle == 'Lobby'%}
+	      	    <li class="nav-item active">
+	      {% else %}
+	      	<li class="nav-item">
+	      {% endif %}
+	      	{% if 'logged' in request.session %}
+	      	<a class="nav-link disabled" href="">Lobby's </a>
+	      	{% else %}
+	        <a class="nav-link disabled" href="#">Lobby's</a>
+	        {% endif %}
+
+	      </li>
+	      
+	      
+	    
+	     <li class="nav-item active bg-warning rounded">
+	     	<a class="nav-link text-dark" href="#">Contribuir</a>
+	     </li>
+	     
+		
+	    </ul>
+	    
+	  </div>
+	  
+	  <br>
+	  <form class="form-inline">
+	  	{% if 'logged' in request.session %}
+	  	<a style="text-decoration: none; margin-right: 10px;" class="text-dark" href="#"><img src="{{ request.session.avatar }}">  {{ request.session.name }}</a>
+		<a href="/logout" style="color: red;" class="btn btn-dark" style="margin-right: 10px">Sair</a>
+		
+    	
+		  
+    	{% else %}
+    	<a href="/login"><button class="btn btn-dark" type="button">Entrar com Steam</button></a>
+    	{% endif %}
+	   </form>
+	  </div>
+	</nav>
+</header>
+    {% block content %}{% endblock %}
+  	    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  	<footer class="footer mt-auto py-3">
+  <div class="container">
+    <span class="text-light">Made with ❤ by <a href="https://github.com/igor-pontes">Igor Pontes</a> @ Dolex v0.1 - <a class="text-danger" href="/sobre">Sobre</a> - <a class="text-danger" href="#">Reportar Bug</a> - <a class="text-danger" href="#">Changelog</a></span>
+  </div>
+</footer>
+  </body>
+</html>

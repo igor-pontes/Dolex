@@ -1,0 +1,82 @@
+{% extends "dolex/base.html" %}
+  {% block content %}
+  <div class="container ">
+  	<div class="jumbotron bg-light">
+      <br>
+  	<div class="row">
+    <div class="col-8">
+    <div data-spy="scroll" data-target="#list-example" data-offset="0" class="scrollspy-example">
+    <h1 id="list-item-1" class="display-4">Sobre a Dolex</h1>
+    <hr class="my-4">
+    <p>A Dolex é a primeira inhouse brasileira com o objetivo de possibilitar qualquer um a criar sua própria liga/torneio de Dota 2. A dolex foi criada por @Blimpzy(dev) e @Sabonete() e atualmente está em sua fase inicial de desenvolvimento(v0.1).</p>
+    <h1 id="list-item-2" class="display-4">Hospedar minha liga</h1>
+    <hr class="my-4">
+    <p>Essa funcionalidade está atualmente em desenvolvimento e será adicionada em breve(pretendemos adicionar essa feature na versão v0.4 ou v0.5 da plataforma).</p>
+    <h1 id="list-item-3" class="display-4">Preços</h1>
+    <hr class="my-4">
+    <p>O preço da hospedagem de uma liga é proporcionalmente a sua quantidade de slots(sendo R$0.7 por slot adicionado + 10% da premiação aplicada).</p>
+    <h1 id="list-item-4" class="display-4">Outras Perguntas</h1>
+    <hr class="my-4">
+    <!--aqui-->
+      <div class="accordion" id="accordionExample">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Posso ser banido da plataforma?
+        </button>
+      </h2>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body">
+        Até o momento a Dolex ainda não forjou um amplo sistema de punição, tendo a sua única forma de punição, o player não comparecendo ao lobby criado por um dos bots da Dolex.
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingTwo">
+      <h2 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Como administro minha liga?
+        </button>
+      </h2>
+    </div>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+      <div class="card-body">
+        Futuramente, todos os que criaram suas ligas na Dolex, poderão gerenciá-las pelo <a href="#">Painel Administrativo</a>.
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header" id="headingThree">
+      <h2 class="mb-0">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          Como eu posso reportar um jogador?
+        </button>
+      </h2>
+    </div>
+    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+      <div class="card-body">
+        A versão atual da Dolex(v0.1) ainda não possui sistema de report.
+      </div>
+    </div>
+  </div>
+</div>
+    <!--aqui-->
+    </div>
+    </div>
+    <div class="col-4">
+    	<div id="list-example" class="list-group">
+  <a class="list-group-item list-group-item-action" href="#list-item-1">Sobre a Dolex</a>
+  <a class="list-group-item list-group-item-action" href="#list-item-2">Hospedar minha liga</a>
+  <a class="list-group-item list-group-item-action" href="#list-item-3">Preços</a>
+  <a class="list-group-item list-group-item-action" href="#list-item-4">Outras Perguntas</a>
+</div>	
+    </div>
+    </div>
+  </div>
+</div>
+  
+  {% endblock content %}
+

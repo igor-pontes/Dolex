@@ -1,0 +1,138 @@
+{% extends "dolex/base.html" %}
+  {% block content %}
+  {% load static %}
+  {% load filterusertag %}
+  <div class="container ">
+  	<div class="jumbotron bg-light">
+  		<br>
+  		
+  			<span>Termina em: 
+      {% if liga.endate == liga.date %}
+        Indefinida
+      {% else %}
+       {{ liga.endate|date:"j N Y" }}
+      {% endif %}</span>
+		
+  	<div class="row">
+    
+    <div class="col-8">
+    	<h1 class="display-2">{{ liga.nome }}</h1>
+    	<p class="lead">Descrição: {{ liga.desc }}</p>
+ 
+<button type="submit" id="refresh_data" class="btn btn-success btn-sm" hidden=""></button>
+    </div>
+    <div style="margin-top: -20px;" class="col-4 ">
+      <a href="/liga/{{ liga.slug }}/ranking" class="btn btn-secondary btn-lg btn-block">Ranking</a>
+      {% if ureg == True %}
+      <a href="/liga/{{ liga.slug }}/sair" class="btn btn-danger btn-lg btn-block">Sair da {{ liga.nome }}</a>
+
+      <a href="/liga/{{ liga.slug }}/criarlobby" class="btn btn-success btn-lg btn-block">Criar Lobby</a><br>
+      {% elif c == liga.slots and liga.slots != 0 %}
+      <br>
+      {% else %}
+    	<a href="/liga/{{ liga.slug }}/entrar" class="btn btn-primary btn-lg btn-block">Entrar na {{ liga.nome }}</a><br>
+      {% endif %}
+      {% if ureg == False %}
+        {% if liga.slots == 0 %}
+          <div class="alert alert-success" role="alert">
+            <center>Slots Ilimitados!</center>
+          </div>
+          {% elif c == liga.slots %}
+          <div class="alert alert-danger" role="alert">
+            <center>Liga preenchida.</center>
+          </div>
+          {% else %}
+          <div class="alert alert-warning" role="alert">
+            <center> {{ c }}/{{liga.slots}} slot(s) disponível(eis).</center>
+          </div>
+        {% endif %}
+
+      {% else %}
+
+      {% endif %}
+
+    </div>
+    </div>
+     <hr class="my-4">
+     {% if ureg == True %}
+     <div id="alertt"></div>
+    
+    <table style="text-align: center;" class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Nome</th>
+      <th scope="col">Slots</th>
+      <th scope="col">Ação</th>
+    </tr>
+  </thead>
+  <tbody id="hm">
+    {% for i in loby %}
+      {% lobby_filter i liga as slotsoc %}
+      {% if slotsoc == 0 %}
+      {% else %}
+      <tr>
+        <td>{{ i.nome }}</td>
+
+        <td>{{ slotsoc }}/{{i.slots }}</td>
+        <td><a href="/liga/{{ liga.slug }}/lobby/{{ i.slug }}" class="btn btn-success btn-sm">Entrar</a></td>
+      </tr>
+    {% endif %}
+    {% endfor %}
+    
+  </tbody>
+</table>
+
+<script>
+  var ligaName = {{ ligaName }};
+  playsound = true;
+  
+  counter = {{ lobbysc }};
+  var lobbysocket = new WebSocket('ws://'+window.location.host+'/ws/liga/'+ligaName+'/');
+  lobbysocket.onopen = function(){};
+  setInterval(function () {document.getElementById("refresh_data").click();}, 1200);
+  document.querySelector('#refresh_data').onclick = function(e){
+          lobbysocket.send(JSON.stringify({
+            'message': 'refresh',
+            'liga': ligaName,
+
+          }));
+          
+      };
+      
+  lobbysocket.onclose = function(e) {
+        console.error(ligaName+' ws closed.');
+  };
+  lobbysocket.onmessage = function(e){
+        var data = JSON.parse(e.data);
+        var lobc_j = data['_lobbysc'];
+          
+        
+        
+        
+        //console.log({{ lobbysc }}); debug
+        if (lobc_j > counter) {
+          counter += 1; 
+          if (playsound) {
+            var audio = new Audio('/static/dolex/matchfound.wav');
+            audio.play();
+            document.getElementById('alertt').innerHTML = '<div id=".alert" class="alert alert-warning" role="alert"><center><strong>Novo(s) lobby(s) criado(s)!</strong> Para visualiza-lo(s), basta <a href="/liga/{{ liga.slug }}/" class="alert-link">atualizar a página</a>.</center></div>';
+            //setInterval(function(){ location.reload(); }, 1100);
+            //playsound = false;
+          }
+
+        }else{
+          if (lobc_j < counter) {
+            counter = lobc_j;
+            //setInterval(function(){ location.reload(); }, 1100);
+          }
+        }
+  };
+
+</script>
+{% else %}
+  <center><p>Você precisa entrar na liga para visualizar os lobbys.</p></center>
+{% endif %}
+  </div>
+</div>
+  
+  {% endblock content %}

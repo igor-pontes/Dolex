@@ -1,0 +1,45 @@
+version: '3'
+    
+services:
+  nginx:
+    build: ./config/nginx
+    container_name: nginx_dolex 
+    restart: always
+    ports: 
+      - "8080:80"
+    depends_on: 
+      - web
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - "3306:3306"
+    environment: 
+      MYSQL_ROOT_PASSWORD: ky7be4QjYh2a2B75
+      MYSQL_USER: dolex
+      MYSQL_PASSWORD: Yh2a2B75POTYky7be4Qjs
+      MYSQL_DATABASE: dolexdb
+    container_name: db_dolex 
+
+  redis:
+    image: redis
+    restart: always
+    command: redis-server
+    expose:
+        - "6379"
+    container_name: redis_dolex  
+
+  web:
+    restart: always
+    build: .
+    command:  bash -c "python manage.py migrate && daphne -b 0.0.0.0 -p 8000 dolexsite.asgi:application"
+    volumes:
+      - .:/code
+    expose:
+      - "8000"
+    container_name: web_dolex
+    depends_on:
+      - db
+      
+      
