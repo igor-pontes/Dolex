@@ -1,0 +1,95 @@
+{% extends "dolex/base.html" %}
+  {% block content %}
+  {% load static %}
+ 	{% if 'logged' in request.session %}
+    	<div class="container ">
+
+		  	<div class="jumbotron bg-light">
+		  		<br>
+		  		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+				  <CENTER><strong>Atenção!</strong> Você está usando uma versão de testes da dolex.</CENTER>
+				  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				    <span aria-hidden="true">&times;</span>
+				  </button>
+				</div>
+			  	<div class="row">
+
+				    <div class="col-8">
+				    	<span class="border-bottom"><h3 class="">Chat <span class="badge badge-danger">New</span></h3></span>
+				    	
+			  			<hr>
+						
+						<textarea  style="overflow:auto" id="chat_log" disabled></textarea>
+
+						<div class="input-group mb-3">
+						  <div class="input-group-prepend">
+						    <span class="input-group-text" id="basic-addon3">@{{ request.session.name }}</span>
+						  </div>
+						  <input type="text" class="form-control" id="chat_input" aria-describedby="basic-addon3">
+						  <!--<input id="chat_submit" type="button" value="Send" hidden/>-->
+						</div>
+					</div>
+					<div class="col-4">
+						<h3 class="">Profile</h3>
+						<hr>
+						<img class="rounded mx-auto d-block" src="{{ request.session.avatarfull }}"><br>
+						<center><span style="font-size: 25px;">Nome:</span> {{ request.session.name }}</center>
+						<center><span style="font-size: 25px;">Função:</span> Indefinida</center>
+						<center><span style="font-size: 25px;">Steamid:</span> {{ request.session.steamid }}</center>
+						<button type="button" class="btn btn-danger btn-lg btn-block">Editar Perfil</button>
+
+			    	</div>
+		    	</div>
+	  		</div>
+		</div>
+		<!--<script src="{% static 'dolex/home.js' %}"></script>-->
+		<script>
+			var user = {{ usuario }};
+			textarea = document.querySelector('#chat_log');
+			var chatSocket = new WebSocket('wss://'+window.location.host+'/ws/home/');
+			chatSocket.onmessage = function(e){
+				var data = JSON.parse(e.data);
+				var user_j = data['user'];
+				var message = data['message'];
+				document.querySelector('#chat_log').value += ( '@'+user_j+': '+ message + '\n');
+				textarea.scrollTop = textarea.scrollHeight;
+				
+			};
+			chatSocket.onclose = function(e) {
+				console.error('Chat WS closed.');
+			};
+			//document.querySelector('#chat_input').focus();
+			document.querySelector('#chat_input').onkeyup = function(e){
+				if (e.keyCode === 13) {
+					if (document.querySelector('#chat_input').value != '') {
+					var messageInputDom = document.querySelector('#chat_input');
+					var message = messageInputDom.value;
+					chatSocket.send(JSON.stringify({
+						'user': user,
+						'message': message
+					}));
+					messageInputDom.value='';
+				}else{
+					if (document.querySelector('#chat_input').value === '') {
+
+					}
+				}
+
+				}	
+			};
+			
+		</script>
+ 	{% else %}
+	  <div class="container">
+	  <div class="jumbotron bg-light">
+	  	<br>
+		  <h1 class="display-4">Bem-vindo!</h1>
+		  <p class="lead">A Dolex é uma inhouse de Dota 2.</p>
+		  <hr class="my-4">
+		  <p>Alem das suas ligas proprias, qualquer um pode hospedar sua liga aqui tambem!</p>
+		  <a class="btn btn-danger btn-lg" href="sobre" role="button">Saiba Mais</a>
+	  </div>
+	  </div>
+  	{% endif %}
+  {% endblock content %}
+

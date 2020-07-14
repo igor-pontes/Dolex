@@ -1,0 +1,589 @@
+	{% extends "dolex/base.html" %}
+  {% block content %}
+   {% load filterusertag %}
+  <div class="container ">
+<!--hm-->
+ <!-- Trigger the modal with a button -->
+  <button id="lobbyapagado" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" hidden></button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    <button type="submit" id="refresh_data" class="btn btn-success btn-sm" hidden=""></button>
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <center><h4 class="modal-title">AH NÃO!</h4></center>
+          
+        </div>
+        <div class="modal-body">
+          <center><p>Parece que o criador do lobby quitou e portanto o lobby foi apagado :(</p></center>
+        </div>
+        <div class="modal-footer">
+          <a href="/liga/{{ liganame }}" class="btn btn-danger">Procurar outro lobby</a>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<!--hm-->
+  	<div class="jumbotron bg-light">
+      <br>
+      <!--<button id="coco" type="button" class="btn btn-success btn-sm">asdsadsa</button></center>-->
+      <div class="row">
+     <div class="col">
+      	
+      <h1 style="" class="display-5">Lobby - {{ lobbynome }}</h1> 
+      <span class="text-danger">Criador do lobby:</span> {{ criadordolobby }}
+  	</div>
+  	<div class="col">
+      <a style="float:right;" id="sairdalobby" href="/liga/{{ liganame }}" style="" class="btn btn-danger btn-lg">Voltar para a página da liga</a>
+  	</div>
+  </div>
+    	<hr >
+    	<div class="alert alert-danger" role="alert">
+  <Center><strong>Atenção!</strong> Nesta fase inicial de desenvolvimento a plataforma pode apresentar vários bugs!</Center>
+</div>
+  	<div class="row">
+    <div style="" class="col border rounded">
+      <center><p style="margin-top: 20px;" class="h1 text-success">Radiant</p></center>
+      <div class="card">
+		  <div style="text-align: center;" id="slot01" class="card-body">
+		    <center><button id="ocss1" type="button" class="btn btn-success btn-sm">Ocupar</button></center>
+		  </div>
+		  <hr style="margin:0px;">
+		  <div style="text-align: center;" id='slot02' class="card-body">
+		   <center><button id="ocss2" type="button" class="btn btn-success btn-sm">Ocupar</button></center>
+		  </div>
+		  <hr style="margin:0px;">
+		  <div style="text-align: center;" id='slot03' class="card-body">
+		    <center><button id="ocss3" type="button" class="btn btn-success btn-sm">Ocupar</button></center>
+		  </div>
+		  <hr style="margin:0px;">
+		  <div style="text-align: center;" id='slot04' class="card-body">
+		    <center><button id="ocss4" type="button" class="btn btn-success btn-sm">Ocupar</button></center>
+		  </div>
+		  <hr style="margin:0px;">
+		  <div style="text-align: center;" id='slot05' class="card-body">
+		     <center><button id="ocss5" type="button" class="btn btn-success btn-sm">Ocupar</button></center>
+		  </div>
+<hr style="margin:0px;">
+	  </div>
+
+    </div>
+    <div style="padding-top:14%; " class="col-2">
+      <center><h1 style="font-size: 80px;">X</h1></center>
+      <center><h2>versus</h2></center>
+    </div>
+    <div style="" class="col border rounded">
+      <center><p style="margin-top: 20px;" class="h1 text-danger">Dire</p></center>
+      <div class="card">
+		  <div style="text-align: center;" id='slot06' class="card-body">
+		   <center><button id="ocss6" type="button" class="btn btn-success btn-sm">Ocupar</button></center>
+		  </div>
+		  <hr style="margin:0px;">
+		  <div style="text-align: center;" id='slot07' class="card-body">
+		     <center><button id="ocss7" type="button" class="btn btn-success btn-sm">Ocupar</button></center>
+		  </div>
+		  <hr style="margin:0px;">
+		  <div style="text-align: center;" id='slot08' class="card-body">
+		  <center><button id="ocss8" type="button" class="btn btn-success btn-sm">Ocupar</button></center>
+		  </div>
+		  <hr style="margin:0px;">
+		  <div style="text-align: center;" id='slot09' class="card-body">
+		   <center><button id="ocss9" type="button" class="btn btn-success btn-sm">Ocupar</button></center>
+		  </div>
+		  <hr style="margin:0px;">
+		  <div style="text-align: center;" id='slot010' class="card-body">
+		    <center><button id="ocss10" type="button" class="btn btn-success btn-sm">Ocupar</button></center>
+		  </div>
+<hr style="margin:0px;">
+	  </div>
+    </div>
+    <div class="col-4">
+    	<textarea  style="overflow:auto" id="chat_log" disabled></textarea>
+		<div class="input-group mb-3">
+		<div class="input-group-prepend">
+		<span class="input-group-text" id="basic-addon3">@{{ request.session.name }}</span>
+		</div>
+		<input type="text" class="form-control" id="chat_input" aria-describedby="basic-addon3">
+		<!--<input id="chat_submit" type="button" value="Send" hidden/>-->
+		</div>
+    </div>
+    </div>
+  </div>
+</div>
+<script>
+	
+	{% with ''|center:10 as range %}
+				{% for i in range %}
+				{% lobby_player forloop.counter lobby liganame as player %}
+				{% if player != 'lol' %}
+				document.getElementById('slot0{{ forloop.counter }}').innerHTML = '<center><img src="{{ player.steamid.avatar }}"/> - {{ player.steamid.nome }}</center></center>';
+				{% elif player == 'lol' %}
+				
+				{% endif %}
+				{% endfor %}
+				{% endwith %}
+	
+	setInterval(function () {document.getElementById("refresh_data").click();}, 1100);
+	user = '{{ request.session.steamid }}';
+	user_name = '{{ request.session.name }}'
+	lobbyslug = '{{ lobby }}';
+	ligaName = '{{ liganame }}';
+	textarea = document.querySelector('#chat_log');
+	var lobby = new WebSocket('wss://'+window.location.host+'/ws/liga/'+ligaName+'/lobby/'+lobbyslug+'/');
+	lobby.onopen = function (event) {
+
+		lobby.send(JSON.stringify({
+			'tipo': 'verificarjogador',
+			'user': user,
+			'lobbyslug': lobbyslug,
+			'liganame': ligaName,
+		}));
+
+
+	};
+	document.querySelector('#refresh_data').onclick = function(e){
+		//alert('hm');
+          lobby.send(JSON.stringify({
+            'tipo': 'refreshbot',
+            'liganame': ligaName,
+            'lobbyslug': lobbyslug,
+
+          }));
+          
+      };
+	window.addEventListener("beforeunload", function(event) {
+  			
+	  		lobby.send(JSON.stringify({
+				'tipo': 'saidalobby',
+				'user': user,
+				'lobbyslug': lobbyslug,
+				'liganame': ligaName,
+			}));
+  		
+  
+  	});
+	lobby.onmessage = function(e){
+		var data = JSON.parse(e.data);
+		if (data['excluirposi'] == 'sim') {
+
+			ult_p = data['ultposi'];
+			document.getElementById('slot0'+ult_p).innerHTML = "";
+			document.getElementById('slot0'+ult_p).innerHTML = "<center><button id='ocss"+ult_p+"' type='button' class='btn btn-success btn-sm'>Ocupar</button></center>";
+		}
+		if(data['ocuparlote']){
+			if (data['ocuparlote'] == '1') {
+				
+				if (data['lobant']) {
+					
+					slotant = data['lobant'];
+
+					document.getElementById('slot0'+slotant).innerHTML = "";
+					document.getElementById('slot0'+slotant).innerHTML = "<center><button id='ocss"+slotant+"' type='button' class='btn btn-success btn-sm'>Ocupar</button></center>";
+
+					usuario_nome = data['user'];
+					usuario_avatar = data['user_avatar'];
+					document.getElementById('slot01').innerHTML = '<center><img src="'+usuario_avatar+'"/> - '+usuario_nome+'</center>';
+				}else{
+					usuario_nome = data['user'];
+					usuario_avatar = data['user_avatar'];
+					document.getElementById('slot01').innerHTML = '<center><img src="'+usuario_avatar+'"/> - '+usuario_nome+'</center>';
+				}
+			}
+			//-----------------------------------
+
+			else if (data['ocuparlote'] == '2') {
+				
+				if (data['lobant']) {
+					
+					slotant = data['lobant'];
+					document.getElementById('slot0'+slotant).innerHTML = "";
+					document.getElementById('slot0'+slotant).innerHTML = "<center><button id='ocss"+slotant+"' type='button' class='btn btn-success btn-sm'>Ocupar</button></center>";
+					usuario_nome = data['user'];
+					usuario_avatar = data['user_avatar'];
+					document.getElementById('slot02').innerHTML = '<center><img src="'+usuario_avatar+'"/> - '+usuario_nome+'</center>';
+				}else{
+					usuario_nome = data['user'];
+					usuario_avatar = data['user_avatar'];
+					document.getElementById('slot02').innerHTML = '<center><img src="'+usuario_avatar+'"/> - '+usuario_nome+'</center>';
+				}
+			}
+			//-----------------------------------
+
+			else if (data['ocuparlote'] == '3') {
+				
+				if (data['lobant']) {
+					
+					slotant = data['lobant'];
+					document.getElementById('slot0'+slotant).innerHTML = "";
+					document.getElementById('slot0'+slotant).innerHTML = "<center><button id='ocss"+slotant+"' type='button' class='btn btn-success btn-sm'>Ocupar</button></center>";
+					
+					usuario_nome = data['user'];
+					usuario_avatar = data['user_avatar'];
+					document.getElementById('slot03').innerHTML = '<center><img src="'+usuario_avatar+'"/> - '+usuario_nome+'</center>';
+				}else{
+					usuario_nome = data['user'];
+					usuario_avatar = data['user_avatar'];
+					document.getElementById('slot03').innerHTML = '<center><img src="'+usuario_avatar+'"/> - '+usuario_nome+'</center>';
+				}
+			}
+			//-----------------------------------
+			
+			else if (data['ocuparlote'] == '4') {
+				
+				if (data['lobant']) {
+					
+					slotant = data['lobant'];
+					document.getElementById('slot0'+slotant).innerHTML = "";
+					document.getElementById('slot0'+slotant).innerHTML = "<center><button id='ocss"+slotant+"' type='button' class='btn btn-success btn-sm'>Ocupar</button></center>";
+					usuario_nome = data['user'];
+					usuario_avatar = data['user_avatar'];
+					document.getElementById('slot04').innerHTML = '<center><img src="'+usuario_avatar+'"/> - '+usuario_nome+'</center>';
+				}else{
+					usuario_nome = data['user'];
+					usuario_avatar = data['user_avatar'];
+					document.getElementById('slot04').innerHTML = '<center><img src="'+usuario_avatar+'"/> - '+usuario_nome+'</center>';
+				}
+			}
+			
+			//-----------------------------------
+
+			else if (data['ocuparlote'] == '5') {
+				
+				if (data['lobant']) {
+					
+					slotant = data['lobant'];
+					document.getElementById('slot0'+slotant).innerHTML = "";
+					document.getElementById('slot0'+slotant).innerHTML = "<center><button id='ocss"+slotant+"' type='button' class='btn btn-success btn-sm'>Ocupar</button></center>";
+					usuario_nome = data['user'];
+					usuario_avatar = data['user_avatar'];
+					document.getElementById('slot05').innerHTML = '<center><img src="'+usuario_avatar+'"/> - '+usuario_nome+'</center>';
+				}else{
+					usuario_nome = data['user'];
+					usuario_avatar = data['user_avatar'];
+					document.getElementById('slot05').innerHTML = '<center><img src="'+usuario_avatar+'"/> - '+usuario_nome+'</center>';
+				}
+			}
+			
+			//-----------------------------------
+
+			else if (data['ocuparlote'] == '6') {
+				
+				if (data['lobant']) {
+					
+					slotant = data['lobant'];
+					document.getElementById('slot0'+slotant).innerHTML = "";
+					document.getElementById('slot0'+slotant).innerHTML = "<center><button id='ocss"+slotant+"' type='button' class='btn btn-success btn-sm'>Ocupar</button></center>";
+					usuario_nome = data['user'];
+					usuario_avatar = data['user_avatar'];
+					document.getElementById('slot06').innerHTML = '<center><img src="'+usuario_avatar+'"/> - '+usuario_nome+'</center>';
+				}else{
+					usuario_nome = data['user'];
+					usuario_avatar = data['user_avatar'];
+					document.getElementById('slot06').innerHTML = '<center><img src="'+usuario_avatar+'"/> - '+usuario_nome+'</center>';
+				}
+			}
+			
+			//-----------------------------------
+
+			else if (data['ocuparlote'] == '7') {
+				
+				if (data['lobant']) {
+					
+					slotant = data['lobant'];
+					document.getElementById('slot0'+slotant).innerHTML = "";
+					document.getElementById('slot0'+slotant).innerHTML = "<center><button id='ocss"+slotant+"' type='button' class='btn btn-success btn-sm'>Ocupar</button></center>";
+					usuario_nome = data['user'];
+					usuario_avatar = data['user_avatar'];
+					document.getElementById('slot07').innerHTML = '<center><img src="'+usuario_avatar+'"/> - '+usuario_nome+'</center>';
+				}else{
+					usuario_nome = data['user'];
+					usuario_avatar = data['user_avatar'];
+					document.getElementById('slot07').innerHTML = '<center><img src="'+usuario_avatar+'"/> - '+usuario_nome+'</center>';
+				}
+			}
+			
+			//-----------------------------------
+
+			else if (data['ocuparlote'] == '8') {
+				
+				if (data['lobant']) {
+					
+					slotant = data['lobant'];
+					document.getElementById('slot0'+slotant).innerHTML = "";
+					document.getElementById('slot0'+slotant).innerHTML = "<center><button id='ocss"+slotant+"' type='button' class='btn btn-success btn-sm'>Ocupar</button></center>";
+					usuario_nome = data['user'];
+					usuario_avatar = data['user_avatar'];
+					document.getElementById('slot08').innerHTML = '<center><img src="'+usuario_avatar+'"/> - '+usuario_nome+'</center>';
+				}else{
+					usuario_nome = data['user'];
+					usuario_avatar = data['user_avatar'];
+					document.getElementById('slot08').innerHTML = '<center><img src="'+usuario_avatar+'"/> - '+usuario_nome+'</center>';
+				}
+			}
+			
+			//-----------------------------------
+
+			else if (data['ocuparlote'] == '9') {
+				
+				if (data['lobant']) {
+					
+					slotant = data['lobant'];
+					document.getElementById('slot0'+slotant).innerHTML = "";
+					document.getElementById('slot0'+slotant).innerHTML = "<center><button id='ocss"+slotant+"' type='button' class='btn btn-success btn-sm'>Ocupar</button></center>";
+					usuario_nome = data['user'];
+					usuario_avatar = data['user_avatar'];
+					document.getElementById('slot09').innerHTML = '<center><img src="'+usuario_avatar+'"/> - '+usuario_nome+'</center>';
+				}else{
+					usuario_nome = data['user'];
+					usuario_avatar = data['user_avatar'];
+					document.getElementById('slot09').innerHTML = '<center><img src="'+usuario_avatar+'"/> - '+usuario_nome+'</center>';
+				}
+			}
+			
+			//-----------------------------------
+
+			else if (data['ocuparlote'] == '10') {
+				
+				if (data['lobant']) {
+					
+					slotant = data['lobant'];
+					document.getElementById('slot0'+slotant).innerHTML = "";
+					document.getElementById('slot0'+slotant).innerHTML = "<center><button id='ocss"+slotant+"' type='button' class='btn btn-success btn-sm'>Ocupar</button></center>";
+					usuario_nome = data['user'];
+					usuario_avatar = data['user_avatar'];
+					document.getElementById('slot010').innerHTML = '<center><img src="'+usuario_avatar+'"/> - '+usuario_nome+'</center>';
+				}else{
+					usuario_nome = data['user'];
+					usuario_avatar = data['user_avatar'];
+					document.getElementById('slot010').innerHTML = '<center><img src="'+usuario_avatar+'"/> - '+usuario_nome+'</center>';
+				}
+			}
+			
+			//-----------------------------------
+
+		}//fim if(data['ocuparlote']){
+
+		//----------------------------------------------------------------------------------------------------------------//
+					
+		
+		if (data['crioulobby'] != null) {
+
+			if (data['crioulobby'] == 'sim') {
+
+				
+
+			}
+			if (data['crioulobby'] == 'nao') {
+				
+			}
+		}
+
+		if (data['mensagemchat'] != null) {
+			document.querySelector('#chat_log').value += ( '@'+data['user']+': '+ data['mensagemchat'] + '\n');
+			textarea.scrollTop = textarea.scrollHeight;
+		}
+		if (data['apagoulobby']) {
+			ultposi = data['ultposi'];
+			
+			document.getElementById('slot0'+ultposi).innerHTML = "";
+			document.getElementById('slot0'+ultposi).innerHTML = "<center><button id='ocss"+ultposi+"' type='button' class='btn btn-success btn-sm'>Ocupar</button></center>";
+			document.querySelector('#lobbyapagado').click();
+			setTimeout(function() {
+			    window.location.href = "/liga/"+ligaName;
+			}, 5000);
+		}
+		// ----------------------------------------MENSAGEM DOS BOTS!-------------------------------------------
+		if (data['naohaplayers'] != null) {
+			botnome = data['botname'];
+			conteudo = data['conteudo'];
+			document.querySelector('#chat_log').value += ( '['+botnome+': '+ conteudo + ']\n');
+			textarea.scrollTop = textarea.scrollHeight;
+		}
+		if (data['naoedono'] != null) {
+			botnome = data['botname'];
+			conteudo = data['conteudo'];
+			document.querySelector('#chat_log').value += ( '['+botnome+': '+ conteudo + ']\n');
+			textarea.scrollTop = textarea.scrollHeight;
+		}
+		if (data['sembotsparajogo'] != null) {
+			botnome = data['botname'];
+			conteudo = data['conteudo'];
+			document.querySelector('#chat_log').value += ( '['+botnome+': '+ conteudo + ']\n');
+			textarea.scrollTop = textarea.scrollHeight;
+		}
+		if (data['lobbycriadonodota'] != null) {
+			botnome = data['botname'];
+			conteudo = data['conteudo'];
+			document.querySelector('#chat_log').value += ( '['+botnome+': '+ conteudo + ']\n');
+			textarea.scrollTop = textarea.scrollHeight;
+		}
+		if (data['playersnaoforamparaolobby'] != null) {
+			botnome = data['botname'];
+			conteudo = data['conteudo'];
+			document.querySelector('#chat_log').value += ( '['+botnome+': '+ conteudo + ']\n');
+			textarea.scrollTop = textarea.scrollHeight;
+			setTimeout(function() {
+			    window.location.href = "/liga/"+ligaName;
+			}, 6000);
+		}
+		if (data['radganhou'] != null) {
+			botnome = data['botname'];
+			conteudo = data['conteudo'];
+			document.querySelector('#chat_log').value += ( '['+botnome+': '+ conteudo + ']\n');
+			textarea.scrollTop = textarea.scrollHeight;
+		}
+		if (data['partidaceminstantes'] != null) {
+			botnome = data['botname'];
+			conteudo = data['conteudo'];
+			//playernome = data['playernome'];
+			//playermsg = data['playermsg'];
+			/*document.querySelector('#chat_log').value += ( '@'+playernome+': '+ playermsg + '\n');
+			textarea.scrollTop = textarea.scrollHeight;*/
+			document.querySelector('#chat_log').value += ( '['+botnome+': '+ conteudo + ']\n');
+			/*setTimeout(function() {
+			    document.querySelector('#chat_log').value += ( '['+botnome+': '+ conteudo + ']\n');
+			textarea.scrollTop = textarea.scrollHeight;
+			}, 0);*/
+			
+		}
+		if (data['partidajacriada'] != null) {
+			botnome = data['botname'];
+			conteudo = data['conteudo'];
+			document.querySelector('#chat_log').value += ( '['+botnome+': '+ conteudo + ']\n');
+			textarea.scrollTop = textarea.scrollHeight;
+		}
+		if (data['naopodetrocarslot'] != null) {
+			botnome = data['botname'];
+			conteudo = data['conteudo'];
+			document.querySelector('#chat_log').value += ( '['+botnome+': '+ conteudo + ']\n');
+			textarea.scrollTop = textarea.scrollHeight;
+		}
+	};
+
+
+	document.querySelector('#chat_input').onkeyup = function(e){
+		if (e.keyCode === 13) {
+			
+			if (document.querySelector('#chat_input').value != '.start') {
+				var messageInputDom = document.querySelector('#chat_input');
+				var message = messageInputDom.value;
+				lobby.send(JSON.stringify({
+					'tipo': 'chat',
+					'user_chat': user_name,
+					'message_chat': message,
+					'lobbyslug': lobbyslug,
+					'liganame': ligaName,
+				}));
+				messageInputDom.value='';
+			}else{
+				var messageInputDom = document.querySelector('#chat_input');
+				var message = messageInputDom.value;
+				lobby.send(JSON.stringify({
+					'tipo': 'comecarpartida',
+					'user_chat': user_name,
+					'lobbyslug': lobbyslug,
+					'liganame': ligaName,
+					'userid': user,
+					'msgplayer': message
+				}));
+				messageInputDom.value='';
+			}	
+		}	
+	};
+	
+	$( "#slot01" ).on("click", function() { 
+		lobby.send(JSON.stringify({
+			'tipo': 'ocuparslot1',
+			'user': user,
+			'lobbyslug': lobbyslug,
+			'liganame': ligaName,
+		}));
+	});
+	$( "#slot02" ).on("click", function() { 
+		lobby.send(JSON.stringify({
+			'tipo': 'ocuparslot2',
+			'user': user,
+			'lobbyslug': lobbyslug,
+			'liganame': ligaName,
+		}));
+	});
+	$( "#slot03" ).on("click", function() { 
+		lobby.send(JSON.stringify({
+			'tipo': 'ocuparslot3',
+			'user': user,
+			'lobbyslug': lobbyslug,
+			'liganame': ligaName,
+		}));
+	});
+	$( "#slot04" ).on("click", function() { 
+		lobby.send(JSON.stringify({
+			'tipo': 'ocuparslot4',
+			'user': user,
+			'lobbyslug': lobbyslug,
+			'liganame': ligaName,
+		}));
+	});
+	$( "#slot05" ).on("click", function() { 
+		lobby.send(JSON.stringify({
+			'tipo': 'ocuparslot5',
+			'user': user,
+			'lobbyslug': lobbyslug,
+			'liganame': ligaName,
+		}));
+	});
+	$( "#slot06" ).on("click", function() { 
+		lobby.send(JSON.stringify({
+			'tipo': 'ocuparslot6',
+			'user': user,
+			'lobbyslug': lobbyslug,
+			'liganame': ligaName,
+		}));
+	});
+	$( "#slot07" ).on("click", function() { 
+		lobby.send(JSON.stringify({
+			'tipo': 'ocuparslot7',
+			'user': user,
+			'lobbyslug': lobbyslug,
+			'liganame': ligaName,
+		}));
+	});
+	$( "#slot08" ).on("click", function() { 
+		lobby.send(JSON.stringify({
+			'tipo': 'ocuparslot8',
+			'user': user,
+			'lobbyslug': lobbyslug,
+			'liganame': ligaName,
+		}));
+	});
+	$( "#slot09" ).on("click", function() { 
+		lobby.send(JSON.stringify({
+			'tipo': 'ocuparslot9',
+			'user': user,
+			'lobbyslug': lobbyslug,
+			'liganame': ligaName,
+		}));
+	});
+	$( "#slot010" ).on("click", function() { 
+		lobby.send(JSON.stringify({
+			'tipo': 'ocuparslot10',
+			'user': user,
+			'lobbyslug': lobbyslug,
+			'liganame': ligaName,
+		}));
+	});
+	
+	//document.querySelector('#coco').onclick = function(e){
+		
+	//};*/
+	
+
+	
+
+
+</script>
+  
+  {% endblock content %}
+

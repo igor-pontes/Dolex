@@ -1,0 +1,37 @@
+{% extends "dolex/base.html" %}
+  {% block content %}
+  <div class="container ">
+  	<div class="jumbotron bg-light">
+  		<br>
+    	<center><h2 class="display-4">{{ liga.nome }} - <span class="text-secondary">Ranking</span></h2></center><br>
+  	
+  		<table style="text-align: center;" class="table">
+  			<thead>
+			    <tr>
+			      <th scope="col">#</th>
+			      <th scope="col">Avatar</th>
+			      <th scope="col">Nome</th>
+			      <th scope="col">Pontuação</th>
+			    </tr>
+			</thead>
+		  <tbody>
+		  	{% for player in players %}
+		    <tr>
+		      <th scope="row">{{ forloop.counter }}</th>
+		      <td><img src="{{ player.steamid.avatar }}"></td>
+		      {% if request.session.name == player.steamid.nome %}
+		      	<td><span class="text-danger">{{ player.steamid.nome }}</span></td>
+		      {% else %}
+		      	<td>{{ player.steamid.nome }}</td>
+		      {% endif %}
+		      <td>{{ player.pontos }}</td>
+		    </tr>
+		    {% endfor %}
+
+		  </tbody>
+		</table>
+
+  </div>
+</div>
+  
+ {% endblock content %}
