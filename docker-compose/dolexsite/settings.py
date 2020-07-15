@@ -26,7 +26,7 @@ ABSOLUTE_URL='127.0.0.1:8080'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'nginx']
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0', 'nginx', 'web']
 
 
 # Application definition
