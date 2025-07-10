@@ -1,17 +1,15 @@
-# Dolex
-Built with Django framework.
-This is a personal project for learning purposes only. I learned A LOT messing around with this one. 
-WebSocket requests were inevitable so I used Django ASGI (https://channels.readthedocs.io/en/latest/introduction.html) and some Javascript to handle all of those (see lobby.html and consumers.py).
-Made this site entirely in portuguese for the solely reason that my target was all the Brazilians players.
-Since I'm very familiarizied with MysQL I took use of it in this project. (See https://www.digitalocean.com/community/tutorials/how-to-create-a-django-app-and-connect-it-to-a-database for more info on how to set up mysql+django)
-## About
-This project was entirely inspired by Ixdl and Faceit. Since the beginning of its creation I was fascinated by the idea that people could create their own Dota2 inhouse leagues all on an unique website. This idea was growing in me since Ixmike88(https://liquipedia.net/dota2/Ixmike88) made his Ixdl platform where anyone could simply host their own league by only paying him a fixed price per month.
+This is a personal project built with the Django framework for learning purposes. It was a significant learning experience, particularly in experimenting with various technologies. To handle real-time interactions, I implemented WebSocket functionality using Django Channels (ASGI) alongside JavaScript (refer to lobby.html and consumers.py). The site is entirely in Portuguese, targeting Brazilian players, as this was my primary audience. Given my familiarity with MySQL, I used it as the database for this project. For guidance on setting up MySQL with Django, see this DigitalOcean tutorial.
 
-## Functionalities
-As I said before, this project was entirely inspired by Ixdl so it has almost all functionalities this platform has. For example:
+About
 
-- Individual leagues where each one of them have their own ranking system.
-- Steam API Authentication
-- Profile page (Unfinished :@)
-- Dota 2 bots so we can manage and/or receive events from the matchmaking system.
-- Entrance fee system. (Unfinished)
+This project draws inspiration from IXDL and FACEIT. From its inception, I was captivated by the idea of enabling users to create their own Dota 2 in-house leagues on a single platform. The concept took root after learning about Ixmike88's IXDL platform , which allowed anyone to host their own league for a fixed monthly fee.
+
+Functionalities
+
+Inspired by IXDL, this project incorporates many of its core features, including:
+
+Individual Leagues: Each league has its own ranking system.
+Steam API Authentication: For secure user login and integration.
+Profile Page: Currently under development.
+Dota 2 Bots: Used to manage and receive events from the matchmaking system.
+Entrance Fee System: In progress, not yet completed.
