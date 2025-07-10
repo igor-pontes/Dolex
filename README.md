@@ -9,7 +9,11 @@ This project draws inspiration from IXDL and FACEIT. From its inception, I was c
 Inspired by IXDL, this project incorporates many of its core features, including:
 
 Individual Leagues: Each league has its own ranking system.
+
 Steam API Authentication: For secure user login and integration.
+
 Profile Page: Currently under development.
+
 Dota 2 Bots: Used to manage and receive events from the matchmaking system.
+
 Entrance Fee System: In progress, not yet completed.
