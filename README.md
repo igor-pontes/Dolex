@@ -1,4 +1,4 @@
-This is a personal project built with the Django framework for learning purposes. It was a significant learning experience, particularly in experimenting with various technologies. To handle real-time interactions, I implemented WebSocket functionality using Django Channels (ASGI) alongside JavaScript (refer to lobby.html and consumers.py). The site is entirely in Portuguese, targeting Brazilian players, as this was my primary audience. Given my familiarity with MySQL, I used it as the database for this project. For guidance on setting up MySQL with Django.
+This is a personal project built with the Django framework for learning purposes. It was a significant learning experience, particularly in experimenting with various technologies. To handle real-time interactions, I implemented WebSocket functionality using Django Channels (ASGI) alongside JavaScript (refer to lobby.html and consumers.py). The site is entirely in Portuguese, targeting Brazilian players, as this was my primary audience. Given my familiarity with MySQL, I used it as the database for this project.
 
 ## About
 
